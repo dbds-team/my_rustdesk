@@ -28,11 +28,23 @@ jobs:
           sudo apt-get install -y \
              llvm-dev libclang-dev clang
 
+      - name: Install flutter rust bridge deps
+        shell: bash
+        run: |
+          cargo install flutter_rust_bridge_codegen --version 1.80.1 --features "uuid" --locked
+          
       - name: Build bridge for dart
         run: |
           cd flutter
           flutter pub get
-          ./build_generated_bridge.sh
+          # Generate bridge files directly without script
+          flutter_rust_bridge_codegen \
+            --rust-input ../src/flutter_ffi.rs \
+            --dart-output lib/generated_bridge.dart \
+            --c-output generated_bridge.h
+          
+          # Copy header files
+          cp generated_bridge.h frb_generated.h || echo "frb_generated.h not needed"
 
       - name: Upload bridge files
         uses: actions/upload-artifact@master
