@@ -418,12 +418,12 @@ jobs:
           # Fix Kotlin version compatibility
           sed -i 's/org.jetbrains.kotlin.android" version "2.1.21"/org.jetbrains.kotlin.android" version "1.9.10"/g' flutter/android/settings.gradle
           
-          # Create keystore from secret  
-          echo "${{ secrets.KEY_JKS }}" | base64 --decode > flutter/android/app.keystore
+          # Create keystore from secret in the app directory
+          echo "${{ secrets.KEY_JKS }}" | base64 --decode > flutter/android/app/app.keystore
           
-          # Create key.properties file for signing
+          # Create key.properties file for signing with correct path
           cat > flutter/android/key.properties << EOF
-          storeFile=app.keystore
+          storeFile=app/app.keystore
           keyAlias=${{ secrets.ALIAS }}
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
