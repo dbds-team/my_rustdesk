@@ -18,6 +18,7 @@ env:
   VCPKG_COMMIT_ID: "6f29f12e82a8293156836ad81cc9bf5af41fe836"
   VERSION: "1.4.1"
   NDK_VERSION: "r27c"
+  KEY_JKS: ${{ secrets.KEY_JKS }}
 
 jobs:
   generate-bridge:
@@ -454,7 +455,7 @@ jobs:
           echo Last build tool version is: $BUILD_TOOL_VERSION
 
       - name: Sign Android APK
-        if: ${{ secrets.KEY_JKS != '' }}
+        if: env.KEY_JKS != ''
         uses: r0adkll/sign-android-release@v1
         id: sign-rustdesk
         with:
@@ -577,7 +578,7 @@ jobs:
           echo Last build tool version is: $BUILD_TOOL_VERSION
 
       - name: Sign Android Universal APK
-        if: ${{ secrets.KEY_JKS != '' }}
+        if: env.KEY_JKS != ''
         uses: r0adkll/sign-android-release@v1
         id: sign-rustdesk
         with:
