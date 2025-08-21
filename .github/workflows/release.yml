@@ -166,7 +166,7 @@ jobs:
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgDirectory: /opt/artifacts/vcpkg
+          vcpkgDirectory: ${{ github.workspace }}/vcpkg
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
       - name: Install vcpkg dependencies
@@ -238,6 +238,7 @@ jobs:
              libxdo-dev \
              libxfixes-dev \
              nasm \
+             yasm \
              wget
 
       - name: Install flutter
@@ -260,7 +261,7 @@ jobs:
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgDirectory: /opt/artifacts/vcpkg
+          vcpkgDirectory: ${{ github.workspace }}/vcpkg
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
       - name: Install vcpkg dependencies
@@ -289,7 +290,7 @@ jobs:
 
   # Android Build
   build-android:
-    name: Android ${{ matrix.job.arch }}
+    name: Android ARM64
     needs: [generate-bridge]
     runs-on: ubuntu-24.04
     strategy:
@@ -299,14 +300,6 @@ jobs:
           - {
               arch: aarch64,
               target: aarch64-linux-android,
-            }
-          - {
-              arch: armv7,
-              target: armv7-linux-androideabi,
-            }
-          - {
-              arch: x86_64,
-              target: x86_64-linux-android,
             }
     steps:
       - name: Free Disk Space
@@ -331,6 +324,11 @@ jobs:
           name: bridge-artifact
           path: ./
 
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nasm yasm
+
       - name: Install flutter
         uses: subosito/flutter-action@v2.12.0
         with:
@@ -353,7 +351,7 @@ jobs:
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgDirectory: /opt/artifacts/vcpkg
+          vcpkgDirectory: ${{ github.workspace }}/vcpkg
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
       - name: Install vcpkg dependencies
