@@ -421,6 +421,9 @@ jobs:
           # Create keystore from secret in the app directory
           echo "${{ secrets.KEY_JKS }}" | base64 --decode > flutter/android/app/app.keystore
           
+          # Verify keystore file was created
+          ls -la flutter/android/app/app.keystore || echo "Keystore file not created!"
+          
           # Create key.properties file for signing with correct path
           cat > flutter/android/key.properties << EOF
           storeFile=app/app.keystore
@@ -428,6 +431,10 @@ jobs:
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
           EOF
+          
+          # Verify key.properties file
+          echo "=== key.properties content ==="
+          cat flutter/android/key.properties
           
       - name: Build Android APK
         run: |
