@@ -36,7 +36,7 @@ jobs:
           submodules: recursive
 
       - name: Restore bridge files
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: bridge-artifact
           path: ./
@@ -120,7 +120,7 @@ jobs:
           Compress-Archive -Path ./rustdesk -DestinationPath rustdesk-${{ env.VERSION }}-windows-x64.zip
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rustdesk-windows-x64
           path: rustdesk-${{ env.VERSION }}-windows-x64.zip
@@ -137,7 +137,7 @@ jobs:
           submodules: recursive
 
       - name: Restore bridge files
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: bridge-artifact
           path: ./
@@ -191,7 +191,7 @@ jobs:
           tar -czf rustdesk-${{ env.VERSION }}-macos-universal.tar.gz -C rustdesk-${{ env.VERSION }}-macos-universal .
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rustdesk-macos-universal
           path: rustdesk-${{ env.VERSION }}-macos-universal.tar.gz
@@ -208,7 +208,7 @@ jobs:
           submodules: recursive
 
       - name: Restore bridge files
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: bridge-artifact
           path: ./
@@ -282,7 +282,7 @@ jobs:
           tar -czf rustdesk-${{ env.VERSION }}-linux-x64.tar.gz -C ./flutter/build/linux/x64/release/bundle .
 
       - name: Upload Linux artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rustdesk-linux-x64
           path: rustdesk-${{ env.VERSION }}-linux-x64.tar.gz
@@ -326,7 +326,7 @@ jobs:
           submodules: recursive
 
       - name: Restore bridge files
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: bridge-artifact
           path: ./
@@ -468,7 +468,7 @@ jobs:
           BUILD_TOOLS_VERSION: ${{ env.ANDROID_SIGN_TOOL_VERSION }}
 
       - name: Upload Android artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rustdesk-android-${{ matrix.job.arch }}
           path: signed-apk/rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-signed.apk
@@ -496,7 +496,7 @@ jobs:
           submodules: recursive
 
       - name: Restore bridge files
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v4
         with:
           name: bridge-artifact
           path: ./
@@ -522,19 +522,19 @@ jobs:
 
       # Download all the individual APKs and rebuild as universal
       - name: Download aarch64 library
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rustdesk-android-aarch64
           path: ./temp-apks/
 
       - name: Download armv7 library  
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rustdesk-android-armv7
           path: ./temp-apks/
 
       - name: Download x86_64 library
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rustdesk-android-x86_64
           path: ./temp-apks/
@@ -591,7 +591,7 @@ jobs:
           BUILD_TOOLS_VERSION: ${{ env.ANDROID_SIGN_TOOL_VERSION }}
 
       - name: Upload Android Universal artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rustdesk-android-universal
           path: signed-apk/rustdesk-${{ env.VERSION }}-universal-signed.apk
@@ -607,7 +607,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Create Release
         uses: softprops/action-gh-release@v1

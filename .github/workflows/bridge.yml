@@ -49,7 +49,7 @@ jobs:
           cp generated_bridge.h frb_generated.h || echo "frb_generated.h not needed"
 
       - name: Upload bridge files
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: bridge-artifact
           path: |
