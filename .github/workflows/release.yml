@@ -413,6 +413,22 @@ jobs:
             ;;
           esac
 
+      - name: Setup Android signing
+        run: |
+          # Fix Kotlin version compatibility
+          sed -i 's/org.jetbrains.kotlin.android" version "2.1.21"/org.jetbrains.kotlin.android" version "1.9.10"/g' flutter/android/settings.gradle
+          
+          # Create keystore from secret  
+          echo "${{ secrets.KEY_JKS }}" | base64 --decode > flutter/android/app.keystore
+          
+          # Create key.properties file for signing
+          cat > flutter/android/key.properties << EOF
+          storeFile=app.keystore
+          keyAlias=${{ secrets.ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          EOF
+          
       - name: Build Android APK
         run: |
           # Java setup by actions/setup-java should set JAVA_HOME automatically
