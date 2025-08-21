@@ -426,7 +426,7 @@ jobs:
           
           # Create key.properties file for signing with correct path
           cat > flutter/android/key.properties << EOF
-          storeFile=app/app.keystore
+          storeFile=app.keystore
           keyAlias=${{ secrets.ALIAS }}
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
